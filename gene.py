@@ -1,6 +1,8 @@
 import random
 import numpy
 import copy
+
+#유전자 5개
 chromo = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
