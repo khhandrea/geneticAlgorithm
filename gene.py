@@ -1,7 +1,61 @@
 import random
-import numpy
+import numpy as np
 import copy
+from PyQt5.QtWidgets import *
+from matplotlib import pyplot as plt
 
+# https://www.youtube.com/watch?v=ZmYPzESC5YY
+# https://pythonprogramming.net/python-matplotlib-live-updating-graphs/
+
+x = np.arange(1, 10)
+y = np.sin(x)
+print(x, y)
+plt.plot(x, y)
+plt.xlabel('generations')
+plt.ylabel('evaluation')
+plt.title('gene algoritm')
+plt.show()
+
+"""
+#pyqt5
+class MyDialog(QDialog):
+    def __init__(self):
+        QDialog.__init__(self)
+        # label
+        lblName = QLabel("gene Project")
+        # message
+        
+        # input
+        editBox = QLineEdit()
+        # button
+        btnOK = QPushButton("OK")
+        # checkbox
+        btnCheck = QCheckBox("checkbox")
+        # list
+        listwidget = QListWidget()
+        for i in range(10):
+            item = QListWidgetItem("Item %i" % i)
+            listwidget.addItem(item)
+
+        # create layout
+        layout = QVBoxLayout()
+        layout.addWidget(lblName)
+        layout.addWidget(editBox)
+        layout.addWidget(btnOK)
+        layout.addWidget(btnCheck)
+        layout.addWidget(listwidget)
+
+        #apply layout
+        self.setLayout(layout)
+
+
+app = QApplication([])
+dialog = MyDialog()
+dialog.show()
+app.exec_()
+"""
+
+"""
 #유전자 5개
 chromo = [
     [0,0,0,0,0,0,0,0,0,0],
@@ -88,3 +142,4 @@ while(1) :
     # 1000세대 넘으면 종료
     if gene > 1000 :
         break
+"""
