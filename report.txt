@@ -3,3 +3,4 @@
 200220 목 : PyQt5 GUI 설치, matplotlib import 후 간단한 그래프 테스트
 200221 금 : 유전 과정 그래프 출력
 200222 토 : PyQt5 designer 설치 및 테스트
+200223 일 : pygame 설치 및 테스트
