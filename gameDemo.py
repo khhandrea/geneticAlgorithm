@@ -1,41 +1,80 @@
 import pygame as pg
+import time
+from datetime import datetime
+from datetime import timedelta
+
 # https://python.bakyeono.net/chapter-12-1.html
+
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 400
+
+BLOCK_SIZE = 20
+
+BACKGROUND_COLOR = 18, 137, 167
+SNAKE_COLOR = 34, 47, 62
+APPLE_COLOR = 249, 127, 81
+
+
+class Snake:
+    color = SNAKE_COLOR
+
+    def __init__(self):
+        self.positions = [(9, 6), (9, 7), (9, 8), (9, 9)]
+        self.direction = 'north'
+
+    def draw(self, screen):
+        for position in self.positions:
+            draw_block(screen, self.color, position)
+
+
+class Apple:
+    color = APPLE_COLOR
+
+    def __init__(self, position=(5, 5)):
+        self.position = position
+
+    def draw(self, screen):
+        draw_block(screen, self.color, self.position)
+
+
+class GameBoard:
+    width = 20
+    height = 20
+
+    def __init__(self):
+        self.snake = Snake()
+        self.apple = Apple()
+
+    def draw(self, screen):
+        self.apple.draw(screen)
+        self.snake.draw(screen)
+
 
 # initialize
 pg.init()
-BLACK = (0,   0,   0)
-WHITE = (255, 255, 255)
-BLUE = (0,   0, 255)
-GREEN = (0, 255,   0)
-RED = (255,   0,   0)
-size = [400, 300]
-screen = pg.display.set_mode(size)
-pg.display.set_caption("Game Title")
-done = False
-clock = pg.time.Clock()
+screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# main loop
-while not done:
-    # fps
-    clock.tick(10)
 
-    # Main Event Loop
-    for event in pg.event.get():  # User did something
-        if event.type == pg.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
+def draw_background(screen):
+    rect = pg.Rect((0, 0), (SCREEN_WIDTH, SCREEN_HEIGHT))
+    pg.draw.rect(screen, BACKGROUND_COLOR, rect)
 
-    # Clear the screen and set the screen background
-    screen.fill(WHITE)
 
-    # main
-    pg.draw.polygon(screen, GREEN, [[30, 150], [125, 100], [220, 150]], 5)
-    pg.draw.polygon(screen, GREEN, [[30, 150], [125, 100], [220, 150]], 0)
-    pg.draw.lines(screen, RED, False, [[50, 150], [
-        50, 250], [200, 250], [200, 150]], 5)
-    pg.draw.rect(screen, BLACK, [75, 175, 75, 50], 5)
-    pg.draw.rect(screen, BLUE, [75, 175, 75, 50], 0)
-    pg.draw.line(screen, BLACK, [112, 175], [112, 225], 5)
-    pg.draw.line(screen, BLACK, [75, 200], [150, 200], 5)
+def draw_block(screen, color, position):
+    block = pg.Rect((position[1] * BLOCK_SIZE+1, position[0]
+                     * BLOCK_SIZE+1), (BLOCK_SIZE-2, BLOCK_SIZE-2))
+    pg.draw.rect(screen, color, block)
 
-    # update
-    pg.display.flip()
+
+game_board = GameBoard()
+
+while True:
+    events = pg.event.get()
+
+    for event in events:
+        if event.type == pg.QUIT:  # quit
+            exit()
+
+    draw_background(screen)
+    game_board.draw(screen)
+    pg.display.update()  # update
