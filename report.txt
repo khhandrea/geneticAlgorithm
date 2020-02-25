@@ -5,3 +5,4 @@
 200222 토 : PyQt5 designer 설치 및 테스트
 200223 일 : pygame 설치 및 테스트
 200224 월 : pygame snake game basement 코딩
+200225 화 : snake game basement 완료
