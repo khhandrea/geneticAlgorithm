@@ -4,7 +4,18 @@ from datetime import datetime
 from datetime import timedelta
 import random
 
-# https://python.bakyeono.net/chapter-12-1.html
+"""
+todo
+
+v catch deviation of gameboard
+v block right-back turn
+v clear when snake fill the gameboard
+  interval get faster
+v change head color
+  sound effect (on off)
+  score(frame)
+  restart
+"""
 
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 400
@@ -13,9 +24,21 @@ TURN_INTERVAL = timedelta(seconds=0.2)  # get faster eating apple
 
 BLOCK_SIZE = 20
 
+
+# greenish theme
+BACKGROUND_COLOR = 33, 140, 116
+SNAKE_COLOR = 255, 211, 42
+HEAD_COLOR = 255, 168, 1
+APPLE_COLOR = 234, 32, 39
+
+
+"""
+# bluish theme
 BACKGROUND_COLOR = 18, 137, 167
 SNAKE_COLOR = 34, 47, 62
+HEAD_COLOR = 30, 49, 46
 APPLE_COLOR = 249, 127, 81
+"""
 
 DIRECTION_ON_KEY = {
     pg.K_UP: 'north',
@@ -27,13 +50,15 @@ DIRECTION_ON_KEY = {
 
 class Snake:
     color = SNAKE_COLOR
+    head_color = HEAD_COLOR
 
     def __init__(self):
         self.positions = [(9, 6), (9, 7), (9, 8), (9, 9)]
         self.direction = 'north'
 
     def draw(self, screen):
-        for position in self.positions:
+        draw_block(screen, HEAD_COLOR, self.positions[0])
+        for position in self.positions[1:]:
             draw_block(screen, self.color, position)
 
     def crawl(self):
@@ -71,14 +96,6 @@ class Snake:
             self.positions.append((y, x-1))
         elif self.direction == 'west':
             self.positions.append((y, x-1))
-
-
-"""
-direction : 0 1 2 3
-left : -1
-right
-
-"""
 
 
 class Apple:
