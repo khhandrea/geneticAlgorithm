@@ -1,4 +1,5 @@
 import pygame as pg
+from pygame.locals import *
 import time
 from datetime import datetime
 from datetime import timedelta
@@ -13,28 +14,43 @@ v clear when snake fill the gameboard
   interval get faster
 v change head color
   sound effect (on off)
-  score(frame)
+  score
+v frame
   restart
 """
 
-SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 400
+SCREEN_WIDTH = 640
+SCREEN_HEIGHT = 480
+GAMEBOARD_WIDTH = 20
+GAMEBOARD_HEIGHT = 20
+GAMEBOARD_POSITION = [12, 12]
 
-TURN_INTERVAL = timedelta(seconds=0.2)  # get faster eating apple
+INTERVAL_VALUE = 0.2
+TURN_INTERVAL = timedelta(seconds=INTERVAL_VALUE)  # get faster eating apple
+SPEED_RATIO = 0.9
+IS_GETTING_FASTER = 1
 
 BLOCK_SIZE = 20
 
+BACKGROUND_COLOR = 53, 59, 72
 
+# high contrast theme
+GAMEBOARD_COLOR = 0, 0, 0
+SNAKE_COLOR = 255, 255, 255
+HEAD_COLOR = 255, 255, 255
+APPLE_COLOR = 255, 0, 0
+
+"""
 # greenish theme
-BACKGROUND_COLOR = 33, 140, 116
+GAMEBOARD_COLOR = 33, 140, 116
 SNAKE_COLOR = 255, 211, 42
 HEAD_COLOR = 255, 168, 1
 APPLE_COLOR = 234, 32, 39
-
+"""
 
 """
 # bluish theme
-BACKGROUND_COLOR = 18, 137, 167
+GAMEBOARD_COLOR = 18, 137, 167
 SNAKE_COLOR = 34, 47, 62
 HEAD_COLOR = 30, 49, 46
 APPLE_COLOR = 249, 127, 81
@@ -126,9 +142,9 @@ class GameBoard:
         if self.snake.positions[0] in self.snake.positions[1:]:  # self collision
             raise SnakeCollisionException()
 
-        if self.snake.positions[0][0] > 19 \
+        if self.snake.positions[0][0] > GAMEBOARD_WIDTH-1 \
                 or self.snake.positions[0][0] < 0 \
-                or self.snake.positions[0][1] > 19 \
+                or self.snake.positions[0][1] > GAMEBOARD_HEIGHT-1 \
                 or self.snake.positions[0][1] < 0:  # deviate gameboard
             raise SnakeCollisionException
 
@@ -144,7 +160,6 @@ class GameBoard:
             if self.apple.position == position:
                 self.put_new_apple()
                 break
-        TURN_INTERVAL
 
 
 class SnakeExcessiveException(Exception):  # exception for clear
@@ -167,9 +182,18 @@ def draw_background(screen):
     pg.draw.rect(screen, BACKGROUND_COLOR, rect)
 
 
+def draw_gameboard(screen):
+    rect = pg.Rect(
+        (GAMEBOARD_POSITION[1], GAMEBOARD_POSITION[0]),
+        (GAMEBOARD_WIDTH * BLOCK_SIZE, GAMEBOARD_HEIGHT * BLOCK_SIZE))
+    pg.draw.rect(screen, GAMEBOARD_COLOR, rect)
+
+
 def draw_block(screen, color, position):
-    block = pg.Rect((position[1] * BLOCK_SIZE+1, position[0]
-                     * BLOCK_SIZE+1), (BLOCK_SIZE-2, BLOCK_SIZE-2))
+    block = pg.Rect(
+        (GAMEBOARD_POSITION[1] + position[1] * BLOCK_SIZE+1,
+         GAMEBOARD_POSITION[0] + position[0] * BLOCK_SIZE+1),
+        (BLOCK_SIZE-2, BLOCK_SIZE-2))
     pg.draw.rect(screen, color, block)
 
 
@@ -192,5 +216,6 @@ while True:
         last_turn_time = datetime.now()
 
     draw_background(screen)
+    draw_gameboard(screen)
     game_board.draw(screen)
     pg.display.update()  # update
