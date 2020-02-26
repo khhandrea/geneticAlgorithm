@@ -6,3 +6,4 @@
 200223 일 : pygame 설치 및 테스트
 200224 월 : pygame snake game basement 코딩
 200225 화 : snake game basement 완료
+200226 수 : snake game frame 완료
