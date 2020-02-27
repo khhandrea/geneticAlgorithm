@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from datetime import timedelta
 import random
+import pygame.font as font
 
 """
 todo
@@ -17,6 +18,9 @@ v change head color
   score
 v frame
   restart
+  save score
+  check input, output neuron
+  save chronome
 """
 
 SCREEN_WIDTH = 640
@@ -175,6 +179,7 @@ pg.init()
 screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game_board = GameBoard()
 last_turn_time = datetime.now()
+FONT = pg.font.Font("nanum.ttf", 32)
 
 
 def draw_background(screen):
@@ -195,6 +200,11 @@ def draw_block(screen, color, position):
          GAMEBOARD_POSITION[0] + position[0] * BLOCK_SIZE+1),
         (BLOCK_SIZE-2, BLOCK_SIZE-2))
     pg.draw.rect(screen, color, block)
+
+
+def display_score(screen, score):
+    text = FONT.render("score: 25", True, (0, 0, 0))
+    screen.blit(text, (200, 200))
 
 
 while True:
@@ -218,4 +228,5 @@ while True:
     draw_background(screen)
     draw_gameboard(screen)
     game_board.draw(screen)
+    display_score(screen, 25)
     pg.display.update()  # update
