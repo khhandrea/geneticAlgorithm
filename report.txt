@@ -8,3 +8,4 @@
 200225 화 : snake game basement 완료
 200226 수 : snake game frame 완료
 200227 목 : import nanum font
+200228 금 : 점수 표시
